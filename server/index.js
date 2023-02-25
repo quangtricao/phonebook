@@ -68,6 +68,30 @@ app.post("/api/persons", (req, res, next) => {
 		.catch((error) => next(error));
 });
 
+// The middleware handles unsupported routes responds to all requests with 404 unknown endpoint.
+// Therefore, it must be next to the last middleware, the error handler,
+// otherwise no routes or middleware will be called.
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(unknownEndpoint);
+
+// Catch and handle all errors that are passed forward with the next() function
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
+  }
+
+  next(error);
+};
+
+app.use(errorHandler);
+
 // Bind the server to listen to HTTP requests sent to the environment variable PORT
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
