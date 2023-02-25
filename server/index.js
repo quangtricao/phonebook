@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express(); // Create an express application stored in the app variable.
 require("dotenv").config(); // To use the environment variables defined in the .env file
+const cors = require("cors");
 const Person = require("./models/person");
+
+app.use(cors());
+// To use the Cross-origin resource sharing (CORS) mechanism
 
 app.use(express.json());
 // The json-parser takes the JSON data of a request, transforms it into a JavaScript object
