@@ -100,7 +100,7 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler);
 
 // Bind the server to listen to HTTP requests sent to the environment variable PORT
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || "8080";
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
