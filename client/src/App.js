@@ -73,11 +73,28 @@ const App = () => {
     }
   };
 
+  const deletePerson = (id) => {
+    const toDelete = persons.find((p) => p.id === id);
+
+		if (window.confirm(`Delete ${toDelete.name}`)) {
+			personService
+				.remove(id)
+				.then(() => {
+					setPersons(persons.filter((p) => p.id !== id));
+					notify(`Deleted ${toDelete.name}`);
+				})
+				.catch((error) => {
+					notify(error.response.data.error, "error");
+					setPersons(persons.filter((p) => p.id !== toDelete.id));
+				});
+		}
+	};
+
 	// filter persons by name. If there is no letter to filter, return the whole list
 	// else return the list that contains the letter
 	const personsToShow = filter.length === 0
 			? persons
-			: persons.filter((p) => p.name.toLowerCase().includes(filter.toLowerCase()) );
+			: persons.filter((p) => p.name.toLowerCase().includes(filter.toLowerCase()));
 
 	return (
 		<div>
@@ -98,7 +115,7 @@ const App = () => {
 				addPerson={addPerson}
 			/>
 
-			<Persons persons={personsToShow} />
+			<Persons persons={personsToShow} handleDelete={deletePerson}/>
 		</div>
 	);
 };
