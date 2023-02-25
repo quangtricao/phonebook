@@ -1,0 +1,16 @@
+GET http://localhost:3003/api/persons
+
+###
+GET http://localhost:3003/api/persons/636acc3bd62a5ab1d35630a5
+###
+POST http://localhost:3003/api/persons/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "quangtricao123",
+ 	"number": "040-123456"
+}
+
+
+###
+DELETE http://localhost:3003/api/persons/639ed4ef864c454c775efc9e HTTP/1.1
