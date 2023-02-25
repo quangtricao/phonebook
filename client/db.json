@@ -1,0 +1,49 @@
+{
+  "persons": [
+    {
+      "name": "Arto Hellas",
+      "number": "040-123456",
+      "id": 1
+    },
+    {
+      "name": "Ada Lovelace",
+      "number": "39-44-5323523",
+      "id": 2
+    },
+    {
+      "name": "Dan Abramov",
+      "number": "12-43-234345",
+      "id": 3
+    },
+    {
+      "name": "Mary Poppendieck",
+      "number": "39-23-6423122",
+      "id": 4
+    },
+    {
+      "name": "Macey Schaefer",
+      "number": "483268349",
+      "id": 6
+    },
+    {
+      "name": "Theodore Robinson",
+      "number": "8346293444",
+      "id": 7
+    },
+    {
+      "name": "Trevin Schroeder",
+      "number": "932579591",
+      "id": 8
+    },
+    {
+      "name": "Emmanuel Bryant",
+      "number": "49823041825",
+      "id": 9
+    },
+    {
+      "name": "Francis Poole",
+      "number": "43214545",
+      "id": 10
+    }
+  ]
+}
