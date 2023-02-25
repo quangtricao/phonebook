@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Notification from "./components/Notification";
+import personService from "./services/persons";
 
 const App = () => {
-	const [persons, setPersons] = useState([
-		{ name: "Arto Hellas", number: "040-123456", id: 1 },
-		{ name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-		{ name: "Dan Abramov", number: "12-43-234345", id: 3 },
-		{ name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-	]);
+	const [persons, setPersons] = useState([]);
 	const [newName, setNewName] = useState("");
 	const [newNumber, setNewNumber] = useState("");
 	const [filter, setFilter] = useState("");
 	const [notification, setNotification] = useState(null);
+
+  // After the first render, fetch data from the server to render again but only once throughout the App component lifetime.
+  useEffect(() => {
+    personService.fetchData().then((persons) => {
+      setPersons(persons);
+    });
+  }, []);
 
   // set Notification with default info type
 	const notify = (message, type = "info") => {
@@ -42,12 +45,31 @@ const App = () => {
     // else add newPerson to the persons state.
 		if (existingPerson) {
 			if (window.confirm(`${newPerson.name} is already added to phonebook, update the number?`)) {
-        setPersons(persons.map((p) => p.id === existingPerson.id ? newPerson : p));
-        notify(`Update number of ${existingPerson.name}`);
+        personService
+          .update(existingPerson.id, {
+            ...existingPerson,
+            number: newNumber,
+          })
+          .then((savedPerson) => {
+            // replace the matched person in App's state with savedPerson from server
+            setPersons(persons.map((p) => p.id === existingPerson.id ? savedPerson : p));
+
+            notify(`Updated number of ${savedPerson.name}`);
+          })
+          .catch((error) => {
+            notify(error.response.data.error, "error");
+          });
 			} else return;
 		} else {
-      setPersons(persons.concat(newPerson));
-      notify(`Add ${newPerson.name}`)
+      personService
+        .create(newPerson)
+        .then((savedPerson) => {
+          setPersons(persons.concat(savedPerson));
+          notify(`Add ${savedPerson.name}`);
+        })
+        .catch((error) => {
+          notify(error.response.data.error, "error");
+        });
     }
   };
 
