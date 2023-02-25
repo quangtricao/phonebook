@@ -12,6 +12,9 @@ app.use(express.json());
 // then attaches it to body property of request object
 // Therefore, it must be called before all route handlers, otherwise the body property of request object will be undefined.
 
+app.use(express.static("build"));
+// Serve static files in the frontend's production build directory
+
 app.get("/info", (request, response) => {
 	Person.find({}).then((person) => {
 		response.send(
