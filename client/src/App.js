@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Form, InputGroup } from "react-bootstrap";
+
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Notification from "./components/Notification";
@@ -97,26 +99,30 @@ const App = () => {
       : persons.filter((p) => p.name.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-    <div>
-      <h2>Phonebook</h2>
-      <Notification notification={notification} />
+		<div className="mx-5 mt-3">
+			<h2>Phonebook</h2>
 
-      <div>
-        Name filter{" "}
-        <input value={filter} onChange={(event) => setFilter(event.target.value)} />
-      </div>
-      <br />
+			<Notification notification={notification} />
 
-      <PersonForm
-        name={newName}
-        number={newNumber}
-        handleNameChange={(event) => setNewName(event.target.value)}
-        handleNumberChange={(event) => setNewNumber(event.target.value)}
-        addPerson={addPerson}
-      />
+			<InputGroup className="w-50 my-5">
+				<InputGroup.Text>Name Filter: </InputGroup.Text>
+				<Form.Control
+					value={filter}
+					onChange={(event) => setFilter(event.target.value)}
+				/>
+			</InputGroup>
 
-      <Persons persons={personsToShow} handleDelete={deletePerson}/>
-    </div>
+			<PersonForm
+				name={newName}
+				number={newNumber}
+				handleNameChange={(event) => setNewName(event.target.value)}
+				handleNumberChange={(event) => setNewNumber(event.target.value)}
+				addPerson={addPerson}
+			/>
+			<br />
+
+      <Persons persons={personsToShow} handleDelete={deletePerson} />
+		</div>
   );
 };
 
