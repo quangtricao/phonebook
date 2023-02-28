@@ -96,8 +96,6 @@ The MongoDB server is now ready to connect. In backend directory, run the comman
 npm run dev
 ```
 
-<br />
-
 ### Launch the application
 
 Now the frontend of the application is ready to be started. In frontend directory, run the command:
