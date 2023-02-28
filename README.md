@@ -65,9 +65,9 @@ In both client and server folders, install each folder's dependencies with the c
 npm install
 ```
 
-Setting up a database is required before starting the application in development mode. Choose one of two following databases: JSON-server or MongoDB
+Setting up a database is required before starting the application in development mode. Choose one of two following databases: JSON-server or MongoDB.
 
-**JSON server**
+### JSON server
 
 Change baseUrl in client/src/services to "http://localhost:3001/persons"
 
@@ -79,7 +79,7 @@ npm run server
 
 With JSON-server, data is stored in the file "db.json" which can be found at the root of the client directory.
 
-**MongoDB**
+### MongoDB
 
 Change baseUrl in client/src/services to "api/persons".
 
@@ -96,9 +96,11 @@ The MongoDB server is now ready to connect. In backend directory, run the comman
 npm run dev
 ```
 
-**Launch the application**
+<br />
 
-Now the frontend of the application is ready. In frontend directory, run the command:
+### Launch the application
+
+Now the frontend of the application is ready to be started. In frontend directory, run the command:
 
 ```sh
 npm start
