@@ -21,7 +21,7 @@ const PersonForm = ({
 				<InputGroup.Text>Number: </InputGroup.Text>
 				<Form.Control
 					value={number}
-					placeholder="040 2527025"
+					placeholder="040-2527025"
 					onChange={handleNumberChange}
 				/>
 			</InputGroup>
