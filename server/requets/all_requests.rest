@@ -1,9 +1,9 @@
-GET http://localhost:3003/api/persons
+GET http://localhost:3001/api/persons
 
 ###
-GET http://localhost:3003/api/persons/636acc3bd62a5ab1d35630a5
+GET http://localhost:3001/api/persons/636acc3bd62a5ab1d35630a5
 ###
-POST http://localhost:3003/api/persons/ HTTP/1.1
+POST http://localhost:3001/api/persons/ HTTP/1.1
 content-type: application/json
 
 {
@@ -11,6 +11,14 @@ content-type: application/json
  	"number": "040-123456"
 }
 
+###
+PUT http://localhost:3001/api/persons/640097ee8ac1af66bef53678 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "new",
+    "number": "123-123456"
+}
 
 ###
-DELETE http://localhost:3003/api/persons/639ed4ef864c454c775efc9e HTTP/1.1
+DELETE http://localhost:3001/api/persons/639ed4ef864c454c775efc9e HTTP/1.1
