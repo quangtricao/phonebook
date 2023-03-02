@@ -16,92 +16,92 @@ app.use(express.static("build"));
 // Serve static files in the frontend's production build directory
 
 app.get("/info", (request, response) => {
-	Person.find({}).then((person) => {
-		response.send(
-			`<div>Phonebook has info for ${person.length} people</div>
+  Person.find({}).then((person) => {
+    response.send(
+      `<div>Phonebook has info for ${person.length} people</div>
 		<br/>
 		<div>${Date().toString()}</div>`
-		);
-	});
+    );
+  });
 });
 
 app.get("/api/persons", (req, res) => {
-	Person.find({}).then((persons) => {
-		res.json(persons);
-	});
+  Person.find({}).then((persons) => {
+    res.json(persons);
+  });
 });
 
 app.get("/api/persons/:id", (req, res, next) => {
-	Person.findById(req.params.id)
-		.then((person) => {
-			res.json(person);
-		})
-		.catch((error) => next(error));
+  Person.findById(req.params.id)
+    .then((person) => {
+      res.json(person);
+    })
+    .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (req, res, next) => {
-	Person.findByIdAndRemove(req.params.id)
-		.then(() => {
-			res.status(204).end();
-		})
-		.catch((error) => next(error));
+  Person.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", (request, response, next) => {
-	const newPerson = request.body;
+  const newPerson = request.body;
 
-	// The optional { new: true } parameter makes our event handler return the modified document rather than the original
+  // The optional { new: true } parameter makes our event handler return the modified document rather than the original
 
-	// Validations are not run by default, that's why we need { runValidators: true, context: 'query' }
-	// For technical reasons, the plugin requires setting the context option to query.
+  // Validations are not run by default, that's why we need { runValidators: true, context: 'query' }
+  // For technical reasons, the plugin requires setting the context option to query.
 
-	Person.findByIdAndUpdate(request.params.id, newPerson, {
-		new: true,
-		runValidators: true,
-		context: "query",
-	})
-		.then((updatedPerson) => {
-			response.json(updatedPerson);
-		})
-		.catch((error) => next(error));
+  Person.findByIdAndUpdate(request.params.id, newPerson, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
+    .then((updatedPerson) => {
+      response.json(updatedPerson);
+    })
+    .catch((error) => next(error));
 });
 
 app.post("/api/persons", (req, res, next) => {
-	const { name, number } = req.body;
+  const { name, number } = req.body;
 
-	const person = new Person({
-		name,
-		number,
-	});
+  const person = new Person({
+    name,
+    number,
+  });
 
-	person
-		.save()
-		.then((person) => {
-			res.json(person);
-		})
-		.catch((error) => next(error));
+  person
+    .save()
+    .then((person) => {
+      res.json(person);
+    })
+    .catch((error) => next(error));
 });
 
 // The middleware handles unsupported routes responds to all requests with 404 unknown endpoint.
 // Therefore, it must be next to the last middleware, the error handler,
 // otherwise no routes or middleware will be called.
 const unknownEndpoint = (request, response) => {
-	response.status(404).send({ error: "unknown endpoint" });
+  response.status(404).send({ error: "unknown endpoint" });
 };
 
 app.use(unknownEndpoint);
 
 // Catch and handle all errors that are passed forward with the next() function
 const errorHandler = (error, request, response, next) => {
-	console.error(error.message);
+  console.error(error.message);
 
-	if (error.name === "CastError") {
-		return response.status(400).send({ error: "malformatted id" });
-	} else if (error.name === "ValidationError") {
-		return response.status(400).json({ error: error.message });
-	}
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
+  }
 
-	next(error);
+  next(error);
 };
 
 app.use(errorHandler);
@@ -109,5 +109,5 @@ app.use(errorHandler);
 // Bind the server to listen to HTTP requests sent to the environment variable PORT
 const PORT = process.env.PORT || "8080";
 app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
