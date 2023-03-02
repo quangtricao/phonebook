@@ -50,8 +50,15 @@ app.delete("/api/persons/:id", (req, res, next) => {
 app.put("/api/persons/:id", (request, response, next) => {
 	const newPerson = request.body;
 
+	// The optional { new: true } parameter makes our event handler return the modified document rather than the original
+
+	// Validations are not run by default, that's why we need { runValidators: true, context: 'query' }
+	// For technical reasons, the plugin requires setting the context option to query.
+
 	Person.findByIdAndUpdate(request.params.id, newPerson, {
+		new: true,
 		runValidators: true,
+		context: "query",
 	})
 		.then((updatedPerson) => {
 			response.json(updatedPerson);
@@ -79,22 +86,22 @@ app.post("/api/persons", (req, res, next) => {
 // Therefore, it must be next to the last middleware, the error handler,
 // otherwise no routes or middleware will be called.
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
+	response.status(404).send({ error: "unknown endpoint" });
 };
 
 app.use(unknownEndpoint);
 
 // Catch and handle all errors that are passed forward with the next() function
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
+	console.error(error.message);
 
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  } else if (error.name === "ValidationError") {
-    return response.status(400).json({ error: error.message });
-  }
+	if (error.name === "CastError") {
+		return response.status(400).send({ error: "malformatted id" });
+	} else if (error.name === "ValidationError") {
+		return response.status(400).json({ error: error.message });
+	}
 
-  next(error);
+	next(error);
 };
 
 app.use(errorHandler);
